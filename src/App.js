@@ -56,30 +56,18 @@ const Reto = (props) => (
   </div>
 );
 
-const Buscar = (props) => {
+const Buscar = (props) => { 
   const [buscar, setBuscar] = useState('');
+  const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
+  //Solamente cuando cambia [buscar] hacemos el renderizado
   useEffect(() => {
-    const resultados = props.lista.filter(reto =>
-      reto.nombre.toUpperCase().includes(buscar.toUpperCase())
-    );
-    setResultadosBusqueda(resultados);
-  }, [buscar, props]);
-  return (
-    <fieldset>
-      <legend>Búsqueda de reto</legend>
-      <BuscarInput buscar={buscar}
-        onSearchChange={setBuscar}
-      />
-      <BuscarDisplay buscar={buscar}
-        onClear={() => setBuscar('')}
-      />
-      <br />
-      Retos que cumplen con la búsqueda:
-      <ul>
-        <li></li>
-      </ul>
-    </fieldset>
+  //En results guardamos todos los retos cuyo nombre sea 
+  const resultados = props.lista.filter(reto =>
+  reto.nombre.toUpperCase().includes(buscar.toUpperCase())
   );
+  setResultadosBusqueda(resultados);
+  //Añado props para que cuando cambie la lista de retos también se actualice
+  }, [buscar, props]);
 }
 
   const BuscarInput = ({ buscar, onSearchChange }) => {
