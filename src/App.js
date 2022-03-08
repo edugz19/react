@@ -61,7 +61,7 @@ const Buscar = (props) => {
   const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
   useEffect(() => {
     const resultados = props.lista.filter(reto =>
-      reto.nombre.toUpperCase()
+      reto.nombre.toUpperCase().includes(buscar.toUpperCase())
     );
     setResultadosBusqueda(resultados);
   }, [buscar, props]);
