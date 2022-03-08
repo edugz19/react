@@ -38,8 +38,8 @@ const NuevoReto = () => (
 
 const ListaRetos = (props) => (
   <div>
-    {props.lista.map((reto) => (
-      <Reto dato={reto} />
+    {props.lista.map((reto, indice) => (
+      <Reto key={indice} dato={reto} />
     ))}
   </div>
 );
@@ -56,44 +56,59 @@ const Reto = (props) => (
   </div>
 );
 
-const Buscar = (props) => { 
+const Buscar = (props) => {
   const [buscar, setBuscar] = useState('');
   const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
-  //Solamente cuando cambia [buscar] hacemos el renderizado
   useEffect(() => {
-  //En results guardamos todos los retos cuyo nombre sea 
-  const resultados = props.lista.filter(reto =>
-  reto.nombre.toUpperCase().includes(buscar.toUpperCase())
-  );
-  setResultadosBusqueda(resultados);
-  //Añado props para que cuando cambie la lista de retos también se actualice
+    const resultados = props.lista.filter(reto =>
+      reto.nombre.toUpperCase().includes(buscar.toUpperCase())
+    );
+    setResultadosBusqueda(resultados);
   }, [buscar, props]);
+  return (
+    <fieldset>
+      <legend>Búsqueda de reto</legend>
+      <BuscarInput buscar={buscar}
+        onSearchChange={setBuscar}
+      />
+      <BuscarDisplay buscar={buscar}
+        onClear={() => setBuscar('')}
+      />
+      <br />
+      Retos que cumplen con la búsqueda:
+      <ul>
+        {resultadosBusqueda.map(item => (
+          <li key={item.nombre}> {item.nombre}</li>
+        ))}
+      </ul>
+    </fieldset>
+  );
 }
 
-  const BuscarInput = ({ buscar, onSearchChange }) => {
-    return (
-      <input
-        value={buscar}
-        onChange={e => onSearchChange(e.target.value)}
-      />
-    );
-  }
+const BuscarInput = ({ buscar, onSearchChange }) => {
+  return (
+    <input
+      value={buscar}
+      onChange={e => onSearchChange(e.target.value)}
+    />
+  );
+}
 
-  const BuscarDisplay = ({ buscar, onClear }) => {
-    return (
-      <div>
-        <p>Búsqueda actual: {buscar}</p>
-        <button onClick={onClear}>Limpiar busqueda</button>
-      </div>
-    );
-  }
-
-  const App = () => (
+const BuscarDisplay = ({ buscar, onClear }) => {
+  return (
     <div>
-      <Buscar lista={retos}></Buscar>
-      <NuevoReto />
-      <ListaRetos lista={retos} />
+      <p>Búsqueda actual: {buscar}</p>
+      <button onClick={onClear}>Limpiar busqueda</button>
     </div>
-  )
+  );
+}
 
-  export default App;
+const App = () => (
+  <div>
+    <Buscar lista={retos}></Buscar>
+    <NuevoReto />
+    <ListaRetos lista={retos} />
+  </div>
+)
+
+export default App;
