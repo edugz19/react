@@ -1,3 +1,4 @@
+import { useState } from "react/cjs/react.development";
 import React from "react";
 
 const retos = [
@@ -56,11 +57,16 @@ const Reto = (props) => (
 );
 
 const Buscar = (props) => {
+  const [buscar, setBuscar] = useState('');
   return (
     <fieldset>
       <legend>Búsqueda de reto</legend>
-      <BuscarInput />
-      <BuscarDisplay />
+      <BuscarInput buscar={buscar}
+        onSearchChange={setBuscar}
+      />
+      <BuscarDisplay buscar={buscar}
+        onClear={() => setBuscar('')}
+      />
       <br />
       Retos que cumplen con la búsqueda:
       <ul>
@@ -70,16 +76,23 @@ const Buscar = (props) => {
   );
 }
 
-const BuscarInput = () => (
-  <input />
-);
+const BuscarInput = ({ buscar, onSearchChange }) => {
+  return (
+    <input
+      value={buscar}
+      onChange={e => onSearchChange(e.target.value)}
+    />
+  );
+}
 
-const BuscarDisplay = () => (
-  <div>
-    <p>Búsqueda actual: </p>
-    <button>Limpiar busqueda</button>
-  </div>
-);
+const BuscarDisplay = ({ buscar, onClear }) => {
+  return (
+    <div>
+      <p>Búsqueda actual: {buscar}</p>
+      <button onClick={onClear}>Limpiar busqueda</button>
+    </div>
+  );
+}
 
 const App = () => (
   <div>
