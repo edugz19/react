@@ -47,7 +47,7 @@ const ListaRetos = (props) => (
 const Reto = (props) => (
   <div>
     <h2>
-      <input type="checkbox" defacultChecked={props.dato.hecho}></input>
+      <input type="checkbox" defaultChecked={props.dato.hecho}></input>
       {props.dato.reto}
     </h2>
     <p>{props.dato.descripcion}</p>
@@ -61,7 +61,7 @@ const Buscar = (props) => {
   const [resultadosBusqueda, setResultadosBusqueda] = useState([]);
   useEffect(() => {
     const resultados = props.lista.filter(reto =>
-      reto.nombre.toUpperCase().includes(buscar.toUpperCase())
+      reto.nombre.toUpperCase()
     );
     setResultadosBusqueda(resultados);
   }, [buscar, props]);
