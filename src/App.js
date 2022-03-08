@@ -1,0 +1,92 @@
+import React from "react";
+
+const retos = [
+  {
+    personaje: 'Julio César',
+    reto: 'Julio César 007',
+    descripcion: "Julio César necesita un codificador y decodificador de mensajes utilizando el sistema que él mismo inventó: Cifrado César. ¿Le echamos una mano?",
+    hecho: true
+  },
+  {
+    personaje: 'Marc Zuckerberg',
+    reto: 'Redes sociales',
+    descripcion: "Resolvemos el reto en el que Mark Zuckerberg, creador de Facebook, necesita un sistema para controlar que las personas que se dan de alta en sus redes sociales",
+    hecho: true
+  },
+  {
+    personaje: 'Cameron Howe',
+    reto: 'Un contador de Megustas para Mutiny',
+    descripcion: "Cameron Howe, protagonista de Halt and Catch Fire, necesita un contador de «Me gusta» para su comunidad online Mutiny a partir de una lista de nombres",
+    hecho: false
+  }
+];
+
+const NuevoReto = () => (
+  <fieldset>
+    <legend>Nuevo reto</legend>
+    <label>Nombre del reto: </label><br />
+    <input placeholder="Introduce el reto"></input>
+    <br /><br />
+    <label>Personaje: </label><br />
+    <input placeholder="Introduce tu nombre"></input>
+    <br /><br />
+    <label>Descripción del reto: </label><br />
+    <textarea placeholder="Introduce el reto"></textarea>
+  </fieldset>
+);
+
+const ListaRetos = (props) => (
+  <div>
+    {props.lista.map((reto) => (
+      <Reto dato={reto} />
+    ))}
+  </div>
+);
+
+const Reto = (props) => (
+  <div>
+    <h2>
+      <input type="checkbox" defacultChecked={props.dato.hecho}></input>
+      {props.dato.reto}
+    </h2>
+    <p>{props.dato.descripcion}</p>
+    <h4>Encargado por: {props.dato.personaje}</h4>
+    <br />
+  </div>
+);
+
+const Buscar = (props) => {
+  return (
+    <fieldset>
+      <legend>Búsqueda de reto</legend>
+      <BuscarInput />
+      <BuscarDisplay />
+      <br />
+      Retos que cumplen con la búsqueda:
+      <ul>
+        <li></li>
+      </ul>
+    </fieldset>
+  );
+}
+
+const BuscarInput = () => (
+  <input />
+);
+
+const BuscarDisplay = () => (
+  <div>
+    <p>Búsqueda actual: </p>
+    <button>Limpiar busqueda</button>
+  </div>
+);
+
+const App = () => (
+  <div>
+    <Buscar lista={retos}></Buscar>
+    <NuevoReto />
+    <ListaRetos lista={retos} />
+  </div>
+)
+
+export default App;
