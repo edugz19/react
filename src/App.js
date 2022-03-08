@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 
 const retos = [
@@ -58,6 +58,12 @@ const Reto = (props) => (
 
 const Buscar = (props) => {
   const [buscar, setBuscar] = useState('');
+  useEffect(() => {
+    const resultados = props.lista.filter(reto =>
+      reto.nombre.toUpperCase().includes(buscar.toUpperCase())
+    );
+    setResultadosBusqueda(resultados);
+  }, [buscar, props]);
   return (
     <fieldset>
       <legend>Búsqueda de reto</legend>
@@ -76,30 +82,30 @@ const Buscar = (props) => {
   );
 }
 
-const BuscarInput = ({ buscar, onSearchChange }) => {
-  return (
-    <input
-      value={buscar}
-      onChange={e => onSearchChange(e.target.value)}
-    />
-  );
-}
+  const BuscarInput = ({ buscar, onSearchChange }) => {
+    return (
+      <input
+        value={buscar}
+        onChange={e => onSearchChange(e.target.value)}
+      />
+    );
+  }
 
-const BuscarDisplay = ({ buscar, onClear }) => {
-  return (
+  const BuscarDisplay = ({ buscar, onClear }) => {
+    return (
+      <div>
+        <p>Búsqueda actual: {buscar}</p>
+        <button onClick={onClear}>Limpiar busqueda</button>
+      </div>
+    );
+  }
+
+  const App = () => (
     <div>
-      <p>Búsqueda actual: {buscar}</p>
-      <button onClick={onClear}>Limpiar busqueda</button>
+      <Buscar lista={retos}></Buscar>
+      <NuevoReto />
+      <ListaRetos lista={retos} />
     </div>
-  );
-}
+  )
 
-const App = () => (
-  <div>
-    <Buscar lista={retos}></Buscar>
-    <NuevoReto />
-    <ListaRetos lista={retos} />
-  </div>
-)
-
-export default App;
+  export default App;
